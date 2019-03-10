@@ -1,11 +1,7 @@
 var PI = 3.14;
-function add(a, b) {
-  return a + b;
-}
+var add = (a, b) => a + b;
 
-function area(r) {
-  return PI * r * r;
-}
+var area = r => PI * r * r;
 
 module.exports = {
   PI: PI,
