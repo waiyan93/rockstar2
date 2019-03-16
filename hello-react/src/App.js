@@ -1,22 +1,35 @@
 import React from "react";
 import logo from "./logo.svg";
 import "./App.css";
+import Item from './Item.js';
+import Add from './Add.js';
 
-class Item extends React.Component {
-  render() {
-    return (
-      <li>{this.props.name}</li> // call the child's property
-    );
-  }
-}
 class App extends React.Component {
+  constructor() {
+    // call to use this keyword
+    super();
+    // set state @ data
+    this.state = {
+      data: ['Bob', 'Alice', 'Tom', 'Mary'],
+    }
+    // bind this to use add method
+    this.add = this.add.bind(this);
+  }
+  add(name) {
+    var data = this.state.data;
+    data.push(name);
+    // change the state's data
+    this.setState({
+      data: data
+    });
+  }
   render() {
-    var data = ['Bob', 'Alice', 'Tom', 'Mary'];
     return (
       <div>
         <ul>
-          {data.map(item => <Item name={item} />)}
+          {this.state.data.map((item, index) => <Item name={item} />)}
         </ul>
+        <Add add={this.add} />
       </div>
     );
   }
