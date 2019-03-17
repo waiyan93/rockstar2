@@ -1,4 +1,0 @@
-mkdir node_modules
-npm i create-react-app
-
-npx creat-react-app hello-react

@@ -1,37 +1,36 @@
-import React from "react";
-import logo from "./logo.svg";
-import "./App.css";
-import Item from './Item.js';
-import Add from './Add.js';
+import React from 'react';
+import List from './List';
+import Add from './Add';
 
 class App extends React.Component {
   constructor() {
-    // call to use this keyword
     super();
-    // set state @ data
     this.state = {
-      data: ['Bob', 'Alice', 'Tom', 'Mary'],
+      data: ['Milk', 'Egg', 'Carrot'],
     }
-    // bind this to use add method
     this.add = this.add.bind(this);
+    this.remove = this.remove.bind(this);
   }
   add(name) {
-    var data = this.state.data;
-    data.push(name);
-    // change the state's data
     this.setState({
-      data: data
-    });
+      data: [
+        ...this.state.data,
+        name
+      ]
+    })
+  }
+  remove(name) {
+    this.setState({
+      data: this.state.data.filter(item => item !== name)
+    })
   }
   render() {
     return (
       <div>
-        <ul>
-          {this.state.data.map((item, index) => <Item name={item} />)}
-        </ul>
+        <List data={this.state.data} remove={this.remove} />
         <Add add={this.add} />
       </div>
-    );
+    )
   }
 }
 

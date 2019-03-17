@@ -3,9 +3,13 @@ import React from 'react';
 class Item extends React.Component {
     render() {
         return (
-            // call the child's property
-            <li>{this.props.name}</li>
-        );
+            <li>
+                {this.props.name}&nbsp;
+                <button onClick={() => {
+                    this.props.remove(this.props.name)
+                }}>&times;</button>
+            </li>
+        )
     }
 }
 
