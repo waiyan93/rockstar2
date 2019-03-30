@@ -3,7 +3,7 @@ import Header from './Header';
 import Todo from './Todo';
 import Done from './Done';
 import Add from './Add';
-import Clear from './Clear';
+import Divider from '@material-ui/core/Divider';
 
 class App extends React.Component {
     autoId = 5;
@@ -74,21 +74,23 @@ class App extends React.Component {
             <div>
                 <Header
                     count={this.state.tasks.filter(task => task.status === 0).length}
+                    clear={this.clear}
                 />
-                <Add
-                    add={this.add}
-                />
-                <Todo
-                    tasks={this.state.tasks.filter(task => task.status === 0)}
-                    remove={this.remove}
-                    done={this.done}
-                />
-                <hr />
-                <Done
-                    tasks={this.state.tasks.filter(task => task.status === 1)}
-                    remove={this.remove} undo={this.undo}
-                />
-                <Clear clear={this.clear} />
+                <div style={{ margin: 20 }}>
+                    <Add
+                        add={this.add}
+                    />
+                    <Todo
+                        tasks={this.state.tasks.filter(task => task.status === 0)}
+                        remove={this.remove}
+                        done={this.done}
+                    />
+                    <Divider />
+                    <Done
+                        tasks={this.state.tasks.filter(task => task.status === 1)}
+                        remove={this.remove} undo={this.undo}
+                    />
+                </div>
             </div>
         );
     };

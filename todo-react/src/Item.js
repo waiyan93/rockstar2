@@ -1,19 +1,37 @@
 import React from 'react';
+import ListItem from '@material-ui/core/ListItem';
+import Checkbox from '@material-ui/core/Checkbox';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import IconButton from '@material-ui/core/IconButton';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 class Item extends React.Component {
     render() {
         return (
-            <li>
+            <ListItem>
                 {
                     this.props.task.status === 1
-                        ? <input type="checkbox" onChange={() => this.props.undo(this.props.task.id)} checked />
-                        : <input type="checkbox" onChange={() => this.props.done(this.props.task.id)} />
+                        ? <Checkbox
+                            checked={1}
+                            disableRipple
+                            onChange={() => this.props.undo(this.props.task.id)}
+                        />
+                        : <Checkbox
+                            checked={0}
+                            disableRipple
+                            onChange={() => this.props.done(this.props.task.id)}
+                        />
                 }
-                {this.props.task.subject}
-                <button onClick={() => {
-                    this.props.remove(this.props.task.id);
-                }}>&times;</button>
-            </li>
+                <ListItemText primary={this.props.task.subject} />
+                <ListItemSecondaryAction>
+                    <IconButton aria-label="Remove" onClick={() => {
+                        this.props.remove(this.props.task.id);
+                    }}>
+                        <DeleteIcon />
+                    </IconButton>
+                </ListItemSecondaryAction>
+            </ListItem>
         );
     };
 }
