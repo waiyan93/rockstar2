@@ -2,20 +2,25 @@ import React from 'react';
 import Item from './Item';
 import List from '@material-ui/core/List';
 import ListSubheader from '@material-ui/core/ListSubheader';
+import { connect } from 'react-redux';
 
-class Done extends React.Component {
-    doneTitle = <ListSubheader>Done</ListSubheader>
-    render() {
-        return (
-            <List subheader={this.doneTitle}>
-                {this.props.tasks.map(task => <Item
-                    key={task.id}
-                    task={task}
-                    remove={this.props.remove}
-                    undo={this.props.undo} />
-                )}
-            </List>
-        );
-    };
+
+const Done = (props) => {
+    let doneTitle = <ListSubheader>Done</ListSubheader>;
+    return (
+        <List subheader={doneTitle}>
+            {props.tasks.map(task => <Item
+                key={task.id}
+                task={task}
+            />
+            )}
+        </List>
+    );
 }
-export default Done;
+const mapStateToProps = (state) => {
+    return {
+        tasks: state.tasks.filter(task => task.status === 1)
+    }
+}
+
+export default connect(mapStateToProps)(Done);

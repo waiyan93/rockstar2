@@ -1,37 +1,30 @@
 import React from 'react';
 import List from './List';
 import Add from './Add';
+import { connect } from 'react-redux';
 
-class App extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      data: ['Milk', 'Egg', 'Carrot'],
-    }
-    this.add = this.add.bind(this);
-    this.remove = this.remove.bind(this);
-  }
-  add(name) {
-    this.setState({
-      data: [
-        ...this.state.data,
-        name
-      ]
-    })
-  }
-  remove(name) {
-    this.setState({
-      data: this.state.data.filter(item => item !== name)
-    })
-  }
-  render() {
-    return (
-      <div>
-        <List data={this.state.data} remove={this.remove} />
-        <Add add={this.add} />
-      </div>
-    )
-  }
+const App = props => {
+  return (
+    <div>
+      <List data={props.data} remove={props.remove} />
+      <Add add={props.add} />
+    </div>
+  )
 }
 
-export default App;
+const ReduxApp = connect((state) => {
+  return {
+    data: state
+  }
+}, (dispatch) => {
+  return {
+    add: (name) => {
+      dispatch({ type: "add", value: name });
+    },
+    remove: (name) => {
+      dispatch({ type: "remove", value: name });
+    }
+  }
+})(App);
+
+export default ReduxApp;

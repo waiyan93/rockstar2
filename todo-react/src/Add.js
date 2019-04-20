@@ -3,6 +3,8 @@ import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
 import Paper from '@material-ui/core/Paper';
 import NoteAdd from '@material-ui/icons/NoteAdd';
+import { connect } from 'react-redux';
+import TaskActions from './actions/TaskActions';
 
 const styles = {
     container: {
@@ -13,28 +15,34 @@ const styles = {
         padding: 10
     }
 }
-class Add extends React.Component {
-    input = React.createRef();
-    render() {
-        return (
-            <div>
-                <Paper elevation={1} style={styles.container}>
-                    <InputBase
-                        placeholder="New Task"
-                        inputRef={this.input}
-                        style={styles.input}
-                    />
-                    <IconButton onClick={() => {
-                        let subject = this.input.current.value;
-                        this.props.add(subject);
-                        this.input.current.value = "";
-                    }}>
-                        <NoteAdd />
-                    </IconButton>
-                </Paper>
-            </div>
-        )
-    };
+const Add = (props) => {
+    let input = React.createRef();
+    return (
+        <div>
+            <Paper elevation={1} style={styles.container}>
+                <InputBase
+                    placeholder="New Task"
+                    inputRef={input}
+                    style={styles.input}
+                />
+                <IconButton onClick={() => {
+                    let subject = input.current.value;
+                    if (subject === "") {
+                        alert("Subject cannot be blank!");
+                    } else {
+                        props.addTask(subject);
+                        input.current.value = "";
+                    }
+                }}>
+                    <NoteAdd />
+                </IconButton>
+            </Paper>
+        </div>
+    )
 }
-
-export default Add;
+const mapDispatchToProps = (dispatch) => {
+    return {
+        addTask: (subject) => { dispatch(TaskActions.addTask(subject)) }
+    }
+}
+export default connect(null, mapDispatchToProps)(Add);

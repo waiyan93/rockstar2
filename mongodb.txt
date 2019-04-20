@@ -1,0 +1,13 @@
+Insert db.collectionName.insert({ JSON })
+    db.tasks.insert({ 'subject': 'Milk', 'status': 0})
+
+Read and Select  db.collectionName.find() || find({ Condition JSON })
+    db.tasks.find() => all records
+    db.tasks.find({ 'status': 1}) => specific records
+
+Delete db.collectionName.remove({ Condition JSON })
+    db.tasks.remove({ 'subject': 'Apple'}) 
+
+Update db.collectionName.save({ JSON }) || db.collectionName.update({ Condition JSON }, { $set: { JSON } })
+    db.tasks.save({ '_id':  ObjectId("5ca9b2fb995edf1934ec5838"), .....}) => update whole record
+    db.tasks.update({ 'subject': 'Apple' }, { $set: { 'status': 0 } }) => update specific field in record

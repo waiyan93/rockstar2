@@ -5,95 +5,18 @@ import Done from './Done';
 import Add from './Add';
 import Divider from '@material-ui/core/Divider';
 
-class App extends React.Component {
-    autoId = 5;
-    state = {
-        tasks: [
-            { id: 1, subject: "Milk", status: 0 },
-            { id: 2, subject: "Egg", status: 0 },
-            { id: 3, subject: "Carrot", status: 1 },
-            { id: 4, subject: "Apple", status: 1 },
-            { id: 5, subject: "Butter", status: 0 }
-        ]
-    };
-
-    add = subject => {
-        if (subject !== "") {
-            let newTask = {
-                id: ++this.autoId,
-                subject,
-                status: 0
-            }
-            this.setState({
-                tasks: [
-                    ...this.state.tasks,
-                    newTask
-                ]
-            });
-        } else {
-            alert("Subject cannot be blank!");
-        }
-    };
-
-    remove = id => {
-        this.setState({
-            tasks: this.state.tasks.filter(task => task.id !== id)
-        })
-    };
-
-    done = id => {
-        this.setState({
-            tasks: this.state.tasks.map(task => {
-                if (task.id === id) {
-                    task.status = 1;
-                }
-                return task;
-            })
-        })
-    };
-
-    undo = id => {
-        this.setState({
-            tasks: this.state.tasks.map(task => {
-                if (task.id === id) {
-                    task.status = 0;
-                }
-                return task;
-            })
-        })
-    };
-
-    clear = () => {
-        this.setState({
-            tasks: this.state.tasks.filter(task => task.status === 0)
-        })
-    };
-
-    render() {
-        return (
-            <div>
-                <Header
-                    count={this.state.tasks.filter(task => task.status === 0).length}
-                    clear={this.clear}
-                />
-                <div style={{ margin: 20 }}>
-                    <Add
-                        add={this.add}
-                    />
-                    <Todo
-                        tasks={this.state.tasks.filter(task => task.status === 0)}
-                        remove={this.remove}
-                        done={this.done}
-                    />
-                    <Divider />
-                    <Done
-                        tasks={this.state.tasks.filter(task => task.status === 1)}
-                        remove={this.remove} undo={this.undo}
-                    />
-                </div>
+const App = () => {
+    return (
+        <div>
+            <Header />
+            <div style={{ margin: 20 }}>
+                <Add />
+                <Todo />
+                <Divider />
+                <Done />
             </div>
-        );
-    };
+        </div>
+    );
 }
 
 export default App;

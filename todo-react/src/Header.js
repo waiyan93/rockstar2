@@ -8,7 +8,8 @@ import IconButton from '@material-ui/core/IconButton';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-
+import { connect } from 'react-redux';
+import TaskActions from './actions/TaskActions';
 
 const styles = {
   bar: {
@@ -70,4 +71,16 @@ class Header extends React.Component {
   };
 }
 
-export default Header;
+const mapStateToProps = (state) => {
+  return {
+    count: state.tasks.filter(task => task.status === 0).length
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    clear: () => { dispatch(TaskActions.clear()) }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);
