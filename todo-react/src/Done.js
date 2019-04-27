@@ -10,7 +10,7 @@ const Done = (props) => {
     return (
         <List subheader={doneTitle}>
             {props.tasks.map(task => <Item
-                key={task.id}
+                key={task._id}
                 task={task}
             />
             )}
@@ -19,7 +19,7 @@ const Done = (props) => {
 }
 const mapStateToProps = (state) => {
     return {
-        tasks: state.tasks.filter(task => task.status === 1)
+        tasks: state.filter(task => task.status === 1)
     }
 }
 

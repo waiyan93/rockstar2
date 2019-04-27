@@ -1,26 +1,32 @@
 const TaskActions = {
+    set: (tasks) => {
+        return {
+            type: 'SET',
+            tasks: tasks
+        }
+    },
     addTask: (subject) => {
         return {
             type: 'ADD_TASK',
             subject: subject
         }
     },
-    done: (id) => {
+    done: (_id) => {
         return {
             type: 'DONE_TASK',
-            id: id
+            _id: _id
         }
     },
-    undo: (id) => {
+    undo: (_id) => {
         return {
             type: 'UNDO_TASK',
-            id: id
+            _id: _id
         }
     },
-    remove: (id) => {
+    remove: (_id) => {
         return {
             type: 'REMOVE_TASK',
-            id: id
+            _id: _id
         }
     },
     clear: () => {

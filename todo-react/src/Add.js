@@ -15,34 +15,46 @@ const styles = {
         padding: 10
     }
 }
-const Add = (props) => {
-    let input = React.createRef();
-    return (
-        <div>
-            <Paper elevation={1} style={styles.container}>
-                <InputBase
-                    placeholder="New Task"
-                    inputRef={input}
-                    style={styles.input}
-                />
-                <IconButton onClick={() => {
-                    let subject = input.current.value;
-                    if (subject === "") {
-                        alert("Subject cannot be blank!");
-                    } else {
-                        props.addTask(subject);
-                        input.current.value = "";
-                    }
-                }}>
-                    <NoteAdd />
-                </IconButton>
-            </Paper>
-        </div>
-    )
+class Add extends React.Component {
+    input = React.createRef();
+    render() {
+        return (
+            <div>
+                <Paper elevation={1} style={styles.container}>
+                    <InputBase
+                        placeholder="New Task"
+                        inputRef={this.input}
+                        style={styles.input}
+                    />
+                    <IconButton onClick={() => {
+                        let subject = this.input.current.value;
+                        if (subject === "") {
+                            alert("Subject cannot be blank!");
+                        } else {
+                            this.props.addTask(subject);
+                            this.input.current.value = "";
+                        }
+                    }}>
+                        <NoteAdd />
+                    </IconButton>
+                </Paper>
+            </div >
+        )
+    }
 }
 const mapDispatchToProps = (dispatch) => {
     return {
-        addTask: (subject) => { dispatch(TaskActions.addTask(subject)) }
+        addTask: (subject) => {
+            fetch("http://localhost:8000/tasks", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ subject: subject })
+            }).then(res => {
+                return res.json();
+            }).then(json => {
+                dispatch(TaskActions.addTask(json))
+            });
+        }
     }
 }
 export default connect(null, mapDispatchToProps)(Add);

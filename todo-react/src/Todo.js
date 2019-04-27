@@ -10,7 +10,7 @@ const Todo = (props) => {
     return (
         <List subheader={todosTitle}>
             {props.tasks.map(task => <Item
-                key={task.id}
+                key={task._id}
                 task={task}
             />
             )}
@@ -20,7 +20,7 @@ const Todo = (props) => {
 
 const mapStateToProps = (state) => {
     return {
-        tasks: state.tasks.filter(task => task.status === 0)
+        tasks: state.filter(task => task.status === 0)
     }
 }
 

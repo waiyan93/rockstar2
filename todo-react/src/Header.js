@@ -70,16 +70,19 @@ class Header extends React.Component {
     );
   };
 }
-
 const mapStateToProps = (state) => {
   return {
-    count: state.tasks.filter(task => task.status === 0).length
+    count: state.filter(task => task.status === 0).length
   }
 }
-
 const mapDispatchToProps = (dispatch) => {
   return {
-    clear: () => { dispatch(TaskActions.clear()) }
+    clear: () => {
+      fetch(`http://localhost:8000/tasks`, {
+        method: "DELETE",
+      });
+      dispatch(TaskActions.clear());
+    }
   }
 }
 

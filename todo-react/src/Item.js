@@ -17,18 +17,18 @@ class Item extends React.Component {
                         ? <Checkbox
                             checked={1}
                             disableRipple
-                            onChange={() => this.props.undo(this.props.task.id)}
+                            onChange={() => this.props.undo(this.props.task._id)}
                         />
                         : <Checkbox
                             checked={0}
                             disableRipple
-                            onChange={() => this.props.done(this.props.task.id)}
+                            onChange={() => this.props.done(this.props.task._id)}
                         />
                 }
                 <ListItemText primary={this.props.task.subject} />
                 <ListItemSecondaryAction>
                     <IconButton aria-label="Remove" onClick={() => {
-                        this.props.remove(this.props.task.id);
+                        this.props.remove(this.props.task._id);
                     }}>
                         <DeleteIcon />
                     </IconButton>
@@ -40,9 +40,31 @@ class Item extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        done: (id) => { dispatch(TaskActions.done(id)) },
-        undo: (id) => { dispatch(TaskActions.undo(id)) },
-        remove: (id) => { dispatch(TaskActions.remove(id)) }
+        done: (_id) => {
+            fetch(`http://localhost:8000/tasks/${_id}`, {
+                method: "PATCH",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ status: 1 })
+            }).then(res => res.json()).then(json => {
+                dispatch(TaskActions.done(_id));
+            })
+        },
+        undo: (_id) => {
+            fetch(`http://localhost:8000/tasks/${_id}`, {
+                method: "PATCH",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ status: 0 })
+            }).then(res => res.json()).then(json => {
+                dispatch(TaskActions.undo(_id));
+            })
+        },
+        remove: (_id) => {
+            fetch(`http://localhost:8000/tasks/${_id}`, {
+                method: "DELETE"
+            }).then(res => res.json()).then(json => {
+                dispatch(TaskActions.remove(_id));
+            })
+        }
     }
 
 }

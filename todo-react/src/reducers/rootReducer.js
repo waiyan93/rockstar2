@@ -1,62 +1,33 @@
-const initState = {
-    autoId: 5,
-    tasks: [
-        { id: 1, subject: "Milk", status: 0 },
-        { id: 2, subject: "Egg", status: 0 },
-        { id: 3, subject: "Carrot", status: 1 },
-        { id: 4, subject: "Apple", status: 1 },
-        { id: 5, subject: "Butter", status: 0 }
-    ]
-}
-const rootReducer = (state = initState, action) => {
+const rootReducer = (state = [], action) => {
+    if (action.type === "SET") {
+        return action.tasks;
+    }
     if (action.type === "ADD_TASK") {
-        let newTask = {
-            id: ++state.autoId,
-            subject: action.subject,
-            status: 0
-        };
-        return {
-            ...state,
-            tasks: [...state.tasks, newTask]
-        }
+        return [action.subject, ...state];
     }
     if (action.type === "DONE_TASK") {
-        return {
-            ...state,
-            tasks: state.tasks.map(task => {
-                if (task.id === action.id) {
-                    task.status = 1;
-                }
-                return task;
-            })
-        }
+        return state.map(task => {
+            if (task._id === action._id) {
+                task.status = 1;
+            }
+            return task;
+        })
     }
     if (action.type === "UNDO_TASK") {
-        return {
-            ...state,
-            tasks: state.tasks.map(task => {
-                if (task.id === action.id) {
-                    task.status = 0;
-                }
-                return task;
-            })
-        }
+        return state.map(task => {
+            if (task._id === action._id) {
+                task.status = 0;
+            }
+            return task;
+        })
     }
     if (action.type === "REMOVE_TASK") {
-        return {
-            ...state,
-            tasks: state.tasks.filter(task => {
-                return task.id !== action.id;
-            })
-        }
+        return state.filter(task => task._id !== action._id);
     }
     if (action.type === "CLEAR") {
-        return {
-            ...state,
-            tasks: state.tasks.filter(task => {
-                return task.status === 0;
-            })
-        }
+        return state.filter(task => {
+            return task.status === 0;
+        })
     }
     return state;
 }
